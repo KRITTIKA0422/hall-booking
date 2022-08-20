@@ -14,45 +14,36 @@ async function createConnection() {
     return client;
 }
 const client = await createConnection();
-app.get("/", function (request, response) {
-    response.send("Welcome to our app");
-});
-app.get("/movies/:id", async function (request, response) {
-    const { id } = request.params;
-    console.log(request.params, id);
-    const movie = await client.db("app_movie").collection("movies").findOne({ id: id });
-    console.log(movie);
-    movie ? response.send(movie) : response.send({ msg: "Movie not found" });
-});
-
-app.post("/movies", async function (request, response) {
+app.post("/room", async function (request, response) {         //api endpoint for creating rooms
     const data = request.body;
     console.log(data);
-    const result = await client.db("app_movie").collection("movies").insertMany(data);
+    const result = await client.db("hall_booking").collection("room").insertMany(data);
     console.log(result);
     response.send(result);
 });
-app.put("/movies/:id", async function (request, response) {
-    const { id } = request.params;
+app.post("/booking", async function (request, response) {      //api endpoint for booking rooms
+    const data = request.body;
+    console.log(data);
+    const result = await client.db("hall_booking").collection("customer_room").insertMany(data);
+    console.log(result);
+    response.send(result);
+});
+
+app.put("/bookedrooms", async function (request, response) {       //api for adding booked_status
     const data=request.body;
     console.log(data);
-    const result = await client.db("app_movie").collection("movies").updateOne({ id: id },{$set:data});
+    const result = await client.db("hall_booking").collection("customer_room").updateMany({},{$set:data});
     console.log(result);
-  response.send(result);
+   response.send(result);
 });
-app.get("/movies", async function (request, response) {
-    if(request.query.rating){
-        request.query.rating=+request.query.rating;
-    }
-    console.log(request.query);
-    const movies = await client.db("app_movie").collection("movies").find(request.query).toArray();
-    response.send(movies);
+app.get("/bookedrooms", async function (request, response) {     //api endpoint for listing all rooms with booked data
+    const bookedrooms = await client.db("hall_booking").collection("customer_room").find(request.query).toArray();
+    console.log(bookedrooms);
+    response.send(bookedrooms);
 });
-app.delete("/movies/:id", async function (request, response) {
-    const { id } = request.params;
-    console.log(request.params, id);
-    const result = await client.db("app_movie").collection("movies").deleteOne({ id: id });
-    console.log(result);
-    result.deletedCount>0 ? response.send({msg:"Movie deleted successfully"}) : response.send({ msg: "Movie not found" });
+app.get("/customers", async function (request, response) {      //api endpoint for listing all customers with booked data
+    const roomsofcustomers = await client.db("hall_booking").collection("customer_room").find({},{"booked_status":0}).toArray();
+    console.log(roomsofcustomers);
+    response.send(roomsofcustomers);
 });
 app.listen(PORT, () => console.log(`App started in ${PORT}`));
