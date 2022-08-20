@@ -28,7 +28,9 @@ app.post("/booking", async function (request, response) {      //api endpoint fo
     console.log(result);
     response.send(result);
 });
-
+app.get("/", function (request, response) {     //api endpoint for viewing welcome to hall booking
+    response.send("Welcome to hall booking");
+});
 app.put("/bookedrooms", async function (request, response) {       //api for adding booked_status
     const data=request.body;
     console.log(data);
