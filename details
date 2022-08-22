@@ -1,5 +1,5 @@
-api for viewing welcome to hall booking-
-api for creating rooms- 
-api for booking rooms-
-api for listing all rooms with booked data-
-api for listing all customers with booked data-
+api for viewing welcome to hall booking- https://hall-booking-krit.herokuapp.com/
+api for creating and getting rooms- https://hall-booking-krit.herokuapp.com/room
+api for booking rooms- https://hall-booking-krit.herokuapp.com/bookedrooms
+api for listing all rooms with booked data- https://hall-booking-krit.herokuapp.com/bookedrooms
+api for listing all customers with booked data- https://hall-booking-krit.herokuapp.com/customers

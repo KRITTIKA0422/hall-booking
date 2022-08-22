@@ -24,7 +24,12 @@ app.post("/room", async function (request, response) {         //api endpoint fo
     console.log(result);
     response.send(result);
 });
-app.post("/booking", async function (request, response) {      //api endpoint for booking rooms
+app.get("/room", async function (request, response) {     //api endpoint for listing all rooms
+    const rooms = await client.db("hall_booking").collection("room").find(request.query).toArray();
+    console.log(rooms);
+    response.send(rooms);
+});
+app.post("/bookedrooms", async function (request, response) {      //api endpoint for booking rooms
     const data = request.body;
     console.log(data);
     const result = await client.db("hall_booking").collection("customer_room").insertMany(data);
