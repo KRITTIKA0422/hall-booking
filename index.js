@@ -14,6 +14,9 @@ async function createConnection() {
     return client;
 }
 const client = await createConnection();
+app.get("/", function (request, response) {     //api endpoint for viewing welcome to hall booking
+    response.send("Welcome to hall booking");
+});
 app.post("/room", async function (request, response) {         //api endpoint for creating rooms
     const data = request.body;
     console.log(data);
@@ -27,9 +30,6 @@ app.post("/booking", async function (request, response) {      //api endpoint fo
     const result = await client.db("hall_booking").collection("customer_room").insertMany(data);
     console.log(result);
     response.send(result);
-});
-app.get("/", function (request, response) {     //api endpoint for viewing welcome to hall booking
-    response.send("Welcome to hall booking");
 });
 app.put("/bookedrooms", async function (request, response) {       //api for adding booked_status
     const data=request.body;
